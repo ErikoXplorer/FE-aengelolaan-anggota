@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@300;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="resources/style.css" />
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <title>Edit Member - Community App</title>
+  </head>
+  <body>
+    <header
+      class="gradient-bg p-4 text-center text-white d-flex justify-content-between align-items-center"
+    >
+      <a href="index.html">
+        <h3 class="m-0">Community App</h3>
+      </a>
+      <button id="theme-toggle" class="btn btn-light">
+        <i class="fa-solid fa-sun"></i>
+      </button>
+    </header>
+
+    <div class="container-fluid p-4">
+      <section>
+        <div
+          class="row min-vh-100 text-dark d-flex justify-content-between align-items-start content-wrapper"
+        >
+          <!-- Form berada di bagian kiri -->
+          <div class="col-12 col-md-6 order-1 order-md-0 mb-4">
+            <form id="update-member-form">
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >Nama</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  name="name_member"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >Tempat Lahir</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="placeOfBirth"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >Tanggal Lahir</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="birth_date"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >No Handphone</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="phoneNumber"
+                  required
+                  min="1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >Hobi</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="hobbies"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                  >Foto</label
+                >
+                <input type="file" class="form-control" name="image_url" />
+              </div>
+              <div class="mb-3">
+                <label for="FormGroupExampleInput2" class="form-label"
+                  >Alamat</label
+                >
+                <textarea
+                  class="form-control"
+                  id="FormGroupExampleInput2"
+                  name="address"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3 mt-3">
+                <button class="btn btn-primary me-2" type="submit">
+                  <i class="fa-solid fa-check"></i> Update
+                </button>
+                <a href="index.html" class="btn btn-secondary">
+                  <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <!-- Ketentuan Komunitas berada di bagian kanan -->
+          <div class="col-12 col-md-6 order-0 order-md-1 mb-4 mt-4">
+            <div class="card border-warning kuning">
+              <div class="card-header">Ketentuan Komunitas</div>
+              <div class="card-body">
+                <h5 class="card-title">Panduan Ubah Data Anggota</h5>
+                <p class="card-text">
+                  Dalam proses ubah data anggota, pastikan semua data yang
+                  diubah telah sesuai dan mengikuti panduan komunitas. Beberapa
+                  aturan penting yang perlu diperhatikan: <br />
+                  1. Pastikan nama dan informasi pribadi anggota benar dan
+                  lengkap. <br />
+                  2. Foto profil anggota harus jelas dan profesional. <br />
+                  3. Data seperti nomor telepon dan alamat harus diperbarui
+                  secara berkala jika terjadi perubahan. <br />
+                  4. Informasi privasi anggota harus dijaga dengan baik dan
+                  tidak dibagikan tanpa izin. <br />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="gradient-bg text-center text-white pt-3 py-1">
+      <a href="#" class="text-light mx-2">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <p>Copyright &copy; 2024 Kelompok 2</p>
+    </footer>
+
+    <script>
+      $(document).ready(function () {
+        // Function to get URL query parameters
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+
+        // Get the member ID from the URL
+        const memberId = getQueryParam("id");
+
+        // Fetch member details and populate the form
+        if (memberId) {
+          $.ajax({
+            type: "GET",
+            url: `https://be-pengelolaan-anggota.vercel.app/v1/getMemberById/${memberId}`,
+            dataType: "json",
+            success: function (response) {
+              if (response && response.data) {
+                const member = response.data;
+
+                // Populate the form fields with member data
+                $("#formGroupExampleInput").val(member.name_member);
+                $('input[name="placeOfBirth"]').val(member.placeOfBirth);
+                $('input[name="birth_date"]').val(
+                  new Date(member.birth_date).toISOString().slice(0, 10)
+                );
+                $('input[name="phoneNumber"]').val(member.phoneNumber);
+                $('input[name="hobbies"]').val(member.hobbies.join(", "));
+                $("#FormGroupExampleInput2").val(member.address);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error!",
+                  text: "Member not found!",
+                });
+              }
+            },
+            error: function () {
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Failed to fetch member details.",
+              });
+            },
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "No member ID found in the URL.",
+          });
+        }
+
+        // Submit form to update member data
+        $("#update-member-form").on("submit", function (event) {
+          event.preventDefault();
+
+          const name_member = $('input[name="name_member"]').val();
+          const placeOfBirth = $('input[name="placeOfBirth"]').val();
+          const birth_date = $('input[name="birth_date"]').val();
+          const phoneNumber = $('input[name="phoneNumber"]').val();
+          const hobbies = $('input[name="hobbies"]')
+            .val()
+            .split(",")
+            .map((hobby) => hobby.trim());
+          const address = $('textarea[name="address"]').val();
+          const image_url = $('input[name="image_url"]').val(); // Assuming the URL is stored in input
+
+          const updatedData = {
+            name_member,
+            placeOfBirth,
+            birth_date,
+            phoneNumber,
+            hobbies,
+            address,
+            image_url,
+          };
+
+          $.ajax({
+            type: "POST",
+            url: `https://be-pengelolaan-anggota.vercel.app/v1/updateMember/${memberId}`,
+            data: JSON.stringify(updatedData),
+            contentType: "application/json",
+            processData: false,
+            success: function (response) {
+              Swal.fire({
+                icon: "success",
+                title: "Anggota Diperbarui!",
+                text: "Data member berhasil diperbarui.",
+              }).then(() => {
+                window.location.href = "index.html";
+              });
+            },
+            error: function () {
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Ada masalah saat memperbarui member. Coba lagi nanti.",
+              });
+            },
+          });
+        });
+      });
+    </script>
+
+    <!-- resource -->
+    <script src="resources/script.js"></script>
+  </body>
+</html>
